@@ -1,0 +1,95 @@
+# Python and Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv
+
+# Flask specific
+instance/
+.webassets-cache
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+campus_lost_found.db
+
+# File uploads
+static/uploads/*
+!static/uploads/.gitkeep
+temp/
+tmp/
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+.thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Node (if any frontend tooling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# AWS and CI/CD
+.aws/
+*.pem
+*.key
+.credentials
+
+# Build artifacts
+dist/
+build/
+*.tar.gz

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center py-5 mb-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px;">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to Campus Lost & Found</h1>
+        <p class="lead">Helping students recover their lost items and return found items to their rightful owners.</p>
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg me-3">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Report Lost Items</h5>
+                <p class="card-text">Quickly report any lost items with detailed descriptions and photos.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="fas fa-hand-holding-heart fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Report Found Items</h5>
+                <p class="card-text">Help others by reporting items you've found on campus.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center">
+                <i class="fas fa-exchange-alt fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Easy Matching</h5>
+                <p class="card-text">Our search system helps connect lost items with their owners.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <h2 class="mb-4">Recent Activity</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Lost Items Reported Today</h6>
+                    <p class="card-text display-4 text-primary">12</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Items Returned This Week</h6>
+                    <p class="card-text display-4 text-success">8</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

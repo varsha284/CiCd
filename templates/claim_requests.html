@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Claim Requests</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Pending Claims ({{ claims|length }})</h5>
+    </div>
+    <div class="card-body">
+        {% if claims %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Type</th>
+                        <th>Claimant</th>
+                        <th>Claim Description</th>
+                        <th>Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for claim in claims %}
+                    <tr>
+                        <td>
+                            {% if claim.item_type == 'lost' %}
+                            {{ claim.lost_item.item_name }}
+                            {% else %}
+                            {{ claim.found_item.item_name }}
+                            {% endif %}
+                        </td>
+                        <td>{{ claim.item_type.title() }}</td>
+                        <td>{{ claim.user.username }}</td>
+                        <td>{{ claim.claim_description[:50] }}...</td>
+                        <td>{{ claim.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.approve_claim', claim_id=claim.id) }}" class="btn btn-success btn-sm">Approve</a>
+                            <a href="{{ url_for('admin.reject_claim', claim_id=claim.id) }}" class="btn btn-danger btn-sm">Reject</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No pending claims.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

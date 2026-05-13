@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{ lost_items|length }}</h5>
+                <p class="card-text">Lost Items Reported</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-success">{{ found_items|length }}</h5>
+                <p class="card-text">Found Items Reported</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-warning">{{ claims|length }}</h5>
+                <p class="card-text">Claims Submitted</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title text-info">{{ claims|selectattr('status', 'equalto', 'approved')|list|length }}</h5>
+                <p class="card-text">Claims Approved</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('main.report_lost') }}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i>Report Lost Item
+                    </a>
+                    <a href="{{ url_for('main.report_found') }}" class="btn btn-success">
+                        <i class="fas fa-hand-holding-heart me-2"></i>Report Found Item
+                    </a>
+                    <a href="{{ url_for('main.search') }}" class="btn btn-info">
+                        <i class="fas fa-search me-2"></i>Search Items
+                    </a>
+                    <a href="{{ url_for('main.my_reports') }}" class="btn btn-secondary">
+                        <i class="fas fa-list me-2"></i>My Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Claims</h5>
+            </div>
+            <div class="card-body">
+                {% if claims %}
+                <div class="list-group list-group-flush">
+                    {% for claim in claims[:5] %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Claim for {{ 'Lost' if claim.item_type == 'lost' else 'Found' }} Item</h6>
+                            <small class="text-{{ 'success' if claim.status == 'approved' else 'warning' if claim.status == 'pending' else 'danger' }}">{{ claim.status.title() }}</small>
+                        </div>
+                        <p class="mb-1">{{ claim.claim_description[:50] }}...</p>
+                        <small>{{ claim.created_at.strftime('%Y-%m-%d') }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No claims submitted yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

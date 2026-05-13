@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Manage Reports</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">All Lost Items</h5>
+    </div>
+    <div class="card-body">
+        {% if lost_items %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in lost_items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.item_name }}</strong><br>
+                            <small class="text-muted">{{ item.description[:30] }}...</small>
+                        </td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.location_lost }}</td>
+                        <td>{{ item.date_lost }}</td>
+                        <td><span class="badge bg-{{ 'danger' if item.status == 'lost' else 'success' if item.status == 'claimed' else 'info' }}">{{ item.status.title() }}</span></td>
+                        <td>
+                            <a href="{{ url_for('admin.mark_returned', item_type='lost', item_id=item.id) }}" class="btn btn-success btn-sm">Mark Returned</a>
+                            <a href="{{ url_for('admin.delete_report', item_type='lost', item_id=item.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No lost items reported.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">All Found Items</h5>
+    </div>
+    <div class="card-body">
+        {% if found_items %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in found_items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.item_name }}</strong><br>
+                            <small class="text-muted">{{ item.description[:30] }}...</small>
+                        </td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.location_found }}</td>
+                        <td>{{ item.date_found }}</td>
+                        <td><span class="badge bg-{{ 'success' if item.status == 'found' else 'warning' if item.status == 'claimed' else 'info' }}">{{ item.status.title() }}</span></td>
+                        <td>
+                            <a href="{{ url_for('admin.mark_returned', item_type='found', item_id=item.id) }}" class="btn btn-success btn-sm">Mark Returned</a>
+                            <a href="{{ url_for('admin.delete_report', item_type='found', item_id=item.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No found items reported.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

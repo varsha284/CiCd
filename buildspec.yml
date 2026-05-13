@@ -1,0 +1,54 @@
+version: 0.2
+
+# AWS CodeBuild buildspec for Flask Python 3.11 Application
+# Supports AWS CodePipeline and CodeBuild CI/CD Workflow
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Installing Python dependencies..."
+      - pip install --upgrade pip setuptools wheel
+      - pip install -r requirements.txt
+
+  pre_build:
+    commands:
+      - echo "Running code quality and unit tests..."
+      - python -m pytest tests/ -v --tb=short
+      - echo "All tests passed successfully!"
+
+  build:
+    commands:
+      - echo "Building Flask application..."
+      - echo "Build timestamp - $(date)"
+      - python -m py_compile app.py
+      - echo "Application syntax verified"
+      - echo "Build completed successfully"
+
+  post_build:
+    commands:
+      - echo "Finalizing build..."
+      - echo "Application is ready for deployment"
+      - echo "Deployment can proceed to AWS services (EC2, ECS, or Elastic Beanstalk)"
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no
+  exclude-paths:
+    - '.git/**/*'
+    - '.pytest_cache/**/*'
+    - '__pycache__/**/*'
+    - '*.pyc'
+    - '.env'
+    - '.env.local'
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
+
+env:
+  variables:
+    FLASK_ENV: production
+    PYTHONUNBUFFERED: 1

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">My Reports</h1>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Lost Items ({{ lost_items|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% if lost_items %}
+                <div class="list-group list-group-flush">
+                    {% for item in lost_items %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ item.item_name }}</h6>
+                            <span class="badge bg-{{ 'warning' if item.status == 'lost' else 'success' if item.status == 'claimed' else 'info' }}">{{ item.status.title() }}</span>
+                        </div>
+                        <p class="mb-1">{{ item.description[:50] }}...</p>
+                        <small class="text-muted">{{ item.location_lost }} • {{ item.date_lost }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No lost items reported yet.</p>
+                <a href="{{ url_for('main.report_lost') }}" class="btn btn-primary btn-sm">Report Lost Item</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Found Items ({{ found_items|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% if found_items %}
+                <div class="list-group list-group-flush">
+                    {% for item in found_items %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ item.item_name }}</h6>
+                            <span class="badge bg-{{ 'warning' if item.status == 'found' else 'success' if item.status == 'claimed' else 'info' }}">{{ item.status.title() }}</span>
+                        </div>
+                        <p class="mb-1">{{ item.description[:50] }}...</p>
+                        <small class="text-muted">{{ item.location_found }} • {{ item.date_found }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No found items reported yet.</p>
+                <a href="{{ url_for('main.report_found') }}" class="btn btn-success btn-sm">Report Found Item</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
